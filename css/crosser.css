@@ -1,0 +1,35 @@
+.crosser-board {
+  height: 650px;
+  width: 500px;
+}
+
+.row {
+  height: 50px;
+  width: 100%
+}
+
+.sidewalk {
+  background: grey;
+}
+
+.road {
+  background: black;
+}
+
+.tile.ta {
+  background: red;
+}
+
+.tile.car {
+  background: yellow;
+}
+
+.tile.machine {
+  background: brown;
+}
+
+.tile {
+  height: 100%;
+  width: 50px;
+  float: left;
+}
