@@ -6,42 +6,58 @@
   var View = Crosser.View = function ($el) {
     this.$el = $el;
     this.board = new Crosser.Board();
-    this.render();
+    this.buildBoard();
+    this.$taSquare = this.findTile(this.board.ta.pos);
+    this.$carSquares = this.findCars();
     this.$el.keydown(this.moveTA.bind(this));
     setInterval(this.step.bind(this), 500);
+  };
+
+  View.prototype.findCars = function () {
+    var view = this;
+    var cars = [];
+    this.board.cars.forEach(function (car) {
+      cars.push(view.findTile(car.pos));
+    });
+    return cars;
+  };
+
+  View.prototype.findTile = function (pos) {
+    return this.$el.children().eq(pos[0]).children().eq(pos[1]);
   };
 
   View.prototype.moveTA = function (event) {
     switch (event.keyCode) {
       case 38:
-        this.board.moveTA("N", this.$el);
+        this.board.moveTA("N");
         break;
       case 37:
-        this.board.moveTA("W", this.$el);
+        this.board.moveTA("W");
         break;
       case 40:
-        this.board.moveTA("S", this.$el);
+        this.board.moveTA("S");
         break;
       case 39:
-        this.board.moveTA("E", this.$el);
+        this.board.moveTA("E");
         break;
       default:
         break;
     }
+    this.render();
   };
 
-  View.prototype.render = function () {
+  View.prototype.buildBoard = function () {
     this.$el.empty();
-    this.$el.append(this.renderRow("sidewalk", 0));
+    this.$el.append(this.buildRow("sidewalk", 0));
     for (var i = 0; i < 2; i++) {
       for (var j = 1; j < 6; j++) {
-        this.$el.append(this.renderRow("road", j + (i * 6)));
+        this.$el.append(this.buildRow("road", j + (i * 6)));
       }
-      this.$el.append(this.renderRow("sidewalk", j + (i * 6)));
+      this.$el.append(this.buildRow("sidewalk", j + (i * 6)));
     }
   };
 
-  View.prototype.renderRow = function (type, num) {
+  View.prototype.buildRow = function (type, num) {
     var $row = $("<div>").addClass("row").addClass(type);
     for (var i = 0; i < 10; i++) {
       var $tile = $("<div>").addClass("tile").data("pos", [num, i]);
@@ -57,6 +73,26 @@
       $row.append($tile);
     }
     return $row;
+  };
+
+  View.prototype.render = function () {
+    this.renderTA();
+    this.renderCars();
+  };
+
+  View.prototype.renderCars = function () {
+    this.$carSquares.forEach(function (square) {
+      square.removeClass('car');
+    });
+    this.$carSquares = this.findCars();
+    this.$carSquares.forEach(function (square) {
+      square.addClass('car');
+    });
+  }
+
+  View.prototype.renderTA = function (taPos) {
+    this.$taSquare.removeClass('ta');
+    this.$taSquare = this.findTile(this.board.ta.pos).addClass('ta');
   };
 
   View.prototype.step = function () {

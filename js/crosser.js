@@ -34,9 +34,8 @@
     });
   };
 
-  Board.prototype.moveTA = function (direction, $el) {
+  Board.prototype.moveTA = function (direction) {
     this.ta.move(direction);
-    this.render($el);
   };
 
   Board.prototype.spawnCars = function () {
@@ -73,7 +72,7 @@
     "S": [1, 0],
     "E": [0, 1],
     "W": [0, -1]
-  }
+  };
 
   TA.prototype.move = function (direction) {
     var dir = TA.DIRS[direction];
