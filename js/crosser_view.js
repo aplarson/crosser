@@ -10,7 +10,7 @@
     this.$taSquare = this.findTile(this.board.ta.pos);
     this.$carSquares = this.findCars();
     this.$el.keydown(this.moveTA.bind(this));
-    setInterval(this.step.bind(this), 500);
+    this.loop = setInterval(this.step.bind(this), 500);
   };
 
   View.prototype.findCars = function () {
@@ -44,6 +44,9 @@
         break;
     }
     this.render();
+    if (this.board.detectCollisions()) {
+      clearInterval(this.loop);
+    }
   };
 
   View.prototype.buildBoard = function () {
@@ -98,5 +101,8 @@
   View.prototype.step = function () {
     this.board.moveCars();
     this.render();
+    if (this.board.detectCollisions()) {
+      clearInterval(this.loop);
+    }
   };
 })();

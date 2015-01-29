@@ -1,10 +1,10 @@
 .crosser-board {
-  height: 650px;
+  height: 325px;
   width: 500px;
 }
 
 .row {
-  height: 50px;
+  height: 25px;
   width: 100%
 }
 

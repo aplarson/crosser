@@ -11,11 +11,26 @@
     this.createGrid();
   };
 
+  Board.prototype.collides = function (pos1, pos2) {
+    return (pos1[0] === pos2[0] && pos1[1] === pos2[1]);
+  };
+
   Board.prototype.createGrid = function () {
     this.grid = new Array(13);
     for (var i = 0; i < 13; i++) {
       this.grid[i] = new Array(10);
     }
+  };
+
+  Board.prototype.detectCollisions = function () {
+    var board = this;
+    var collision = false;
+    this.cars.forEach(function (car) {
+      if (board.collides(board.ta.pos, car.pos)) {
+        collision = true;
+      }
+    })
+    return collision;
   };
 
   Board.prototype.hasCar = function (pos) {
@@ -32,10 +47,12 @@
     this.cars.forEach(function (car) {
       car.move();
     });
+    this.detectCollisions();
   };
 
   Board.prototype.moveTA = function (direction) {
     this.ta.move(direction);
+    this.detectCollisions();
   };
 
   Board.prototype.spawnCars = function () {
