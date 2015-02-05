@@ -55,6 +55,14 @@
     this.detectCollisions();
   };
 
+  Board.prototype.over = function () {
+    return this.ta.pos[0] === 0;
+  };
+
+  Board.prototype.score = function () {
+    return (12 - this.ta.pos[0]) * 10;
+  };
+
   Board.prototype.spawnCars = function () {
     for (var i = 0; i < 13; i++) {
       if (i !== 0 && i !== 6 && i !== 12) {

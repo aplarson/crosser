@@ -78,6 +78,10 @@
     return $row;
   };
 
+  View.prototype.gameOver = function () {
+    alert(this.board.score());
+  };
+
   View.prototype.render = function () {
     this.renderTA();
     this.renderCars();
@@ -103,6 +107,14 @@
     this.render();
     if (this.board.detectCollisions()) {
       clearInterval(this.loop);
+      this.gameOver();
+    } else if (this.board.over()) {
+      clearInterval(this.loop);
+      this.winner();
     }
+  };
+
+  View.prototype.winner = function () {
+    alert(this.board.score());
   };
 })();
